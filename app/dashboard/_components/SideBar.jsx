@@ -45,9 +45,11 @@ function SideBar() {
 
       {/* Create New Button */}
       <div className="mt-10">
-        <Button className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 animate-fade-in">
-          + Create New
-        </Button>
+        <Link href={"/create"} className="w-full">
+          <Button className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 animate-fade-in">
+            + Create New
+          </Button>
+        </Link>
       </div>
 
       {/* Menu List */}
