@@ -62,30 +62,29 @@ export const GenerateNotes = inngest.createFunction(
 
     const notesResult = await step.run("Generate Note", async () => {
       const Chapters = course?.courseLayout?.chapters;
-      let index = 0;
-      Chapters.forEach(async (chapter) => {
+      // Use Promise.all with map instead of forEach
+      await Promise.all(Chapters.map(async (chapter, index) => {
         const PROMPT = `Generate exam material detail content for each chapter , Make sure to includes all topic point in the content, make sure to give content in HTML format (Do not Add HTMLK , Head, Body, title tag), The chapters: ${JSON.stringify(
           chapter
         )}`;
+        
         const result = await generateNotesAiModel.sendMessage(PROMPT);
+        const aiResponse = await result.response.text();
 
-        const aiResponse = result.response.text();
+        console.log("AI Response for chapter", index, ":", aiResponse);
 
-        console.log("AI Response:", aiResponse);
-
+        // Insert note for this chapter
         await db.insert(CHAPTER_NOTES_TABLE).values({
           chapterId: index,
           courseId: course?.courseId,
           note: aiResponse,
         });
-        index = index + 1;
-      });
+      }));
 
       return "Success";
     });
 
     // update course status
-
     const updateCourseStatus = await step.run(
       "Update Course Status",
       async () => {
@@ -94,10 +93,13 @@ export const GenerateNotes = inngest.createFunction(
           .set({
             status: "completed",
           })
-          .where(eq(STUDY_MATERIAL_TABLE.id, course?.courseId));
+          .where(eq(STUDY_MATERIAL_TABLE.courseId, course?.courseId));
+        
+        console.log("Course status update result:", result);
         return "Success";
-        console.log(result);
       }
     );
+
+    return { notesResult, updateCourseStatus };
   }
 );

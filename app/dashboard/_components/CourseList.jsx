@@ -13,6 +13,7 @@ function CourseList() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log("User:", user);
     user && GetCourseList();
   }, [user]);
 

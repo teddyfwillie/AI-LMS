@@ -8,9 +8,7 @@ export async function POST(req) {
   const { courseId, topic, courseType, difficultyLevel, createdBy } =
     await req.json();
 
-  const PROMPT = `Generate a study material for ${topic} for ${courseType} and level of difficulty  will be ${difficultyLevel} with sumery of course, List of Chapters along with summery  for each chapter, Topic list in each chapter in  JSON format
-
-`;
+  const PROMPT = `Generate a study material for ${topic} for ${courseType} and level of difficulty  will be ${difficultyLevel} with sumery of course, List of Chapters along with summery  for each chapter, Topic list in each chapter in  JSON format`;
 
   // Generate Course Outline
 
@@ -34,12 +32,17 @@ export async function POST(req) {
 
   // trigger inngest function to generate notes
 
-  const result = await inngest.send({
-    name: "generate-note",
-    data: {
-      course: dbResult[0].resp,
-    },
-  });
+  // trigger inngest function to generate notes
+const result = await inngest.send({
+  name: "note.generate", // Make sure this matches the event name in the function
+  data: {
+    course: {
+      courseId: dbResult[0].resp.courseId,
+      courseLayout: dbResult[0].resp.courseLayout,
+      // Include any other necessary data
+    }
+  },
+});
   console.log("Note Generation Result:", result.data.resp);
   console.log("DB Insert Result:", dbResult[0].resp);
 
