@@ -31,3 +31,11 @@ export const CHAPTER_NOTES_TABLE = pgTable("chapter_notes", {
   chapterId: varchar().notNull(),
   note: text(),
 });
+
+export const STUDY_TYPE_CONTENT_TABLE = pgTable("study_type_content", {
+  id: serial().primaryKey(),
+  courseId: varchar().notNull(),
+  content: json(),
+  type: varchar().notNull(),
+  status: varchar().notNull().default("Generating"),
+});

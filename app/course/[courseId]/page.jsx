@@ -3,7 +3,6 @@
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
 import CourseIntroCard from "../_components/CourseIntroCard";
 import StudyMaterialSection from "../_components/StudyMaterialSection";
 import ChapterList from "../_components/ChapterList";
@@ -24,12 +23,11 @@ function page() {
 
   return (
     <div className="">
-      <DashboardHeader />
       <div className="mx-10 md:mx-36 lg:mx-44 mt-10 animate-fade-in">
         {/* Course Details */}
         <CourseIntroCard course={course} />
         {/* Study Material Options */}
-        <StudyMaterialSection courseId={courseId} />
+        <StudyMaterialSection courseId={courseId} course={course} />
         {/* Study Material List */}
         <ChapterList course={course} />
       </div>

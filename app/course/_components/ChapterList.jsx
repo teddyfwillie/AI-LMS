@@ -4,10 +4,10 @@ function ChapterList({ course }) {
   const CHAPTER = course?.courseLayout?.chapters;
   return (
     <>
-      <h2 className="text-lg font-bold mb-2">Chapter List</h2>
-      {CHAPTER?.map((chapter) => (
+      <h2 className="text-lg font-bold mb-2">Chapters</h2>
+      {CHAPTER?.map((chapter, index) => (
         <div
-          key={chapter?.id}
+          key={index}
           className="border shadow-md rounded-lg p-5 mb-2 flex items-center gap-5 w-full hover:cursor-pointer"
         >
           <h2 className="text-2xl font-bold mb-2">{chapter?.title}</h2>

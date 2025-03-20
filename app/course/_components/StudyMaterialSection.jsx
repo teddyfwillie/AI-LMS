@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import MaterialCardItem from "./MaterialCardItem";
 import axios from "axios";
+import Link from "next/link";
 
-function StudyMaterialSection({ courseId }) {
-  const [studyMaterial, setStudyMaterial] = useState();
+function StudyMaterialSection({ courseId, course }) {
+  const [studyTypeContent, setStudyTypeContent] = useState();
   const MaterialList = [
     {
       name: "Notes/Chapters",
@@ -16,7 +17,7 @@ function StudyMaterialSection({ courseId }) {
       name: "Flashcard",
       desc: "Create Flashcards to remember important points",
       icon: "/flashcard.png",
-      path: "/flashcard",
+      path: "/flashcards",
       type: "flashcard",
     },
     {
@@ -45,7 +46,7 @@ function StudyMaterialSection({ courseId }) {
       studyType: "ALL",
     });
     console.log(result?.data);
-    setStudyMaterial(result?.data);
+    setStudyTypeContent(result?.data);
   };
 
   return (
@@ -56,7 +57,9 @@ function StudyMaterialSection({ courseId }) {
           <MaterialCardItem
             key={index}
             item={item}
-            studyMaterial={studyMaterial}
+            studyTypeContent={studyTypeContent}
+            course={course}
+            refreshData={GetStudyMaterial}
           />
         ))}
       </div>

@@ -1,8 +1,16 @@
 import { db } from "@/configs/db";
 import { inngest } from "./client";
-import { CHAPTER_NOTES_TABLE, USER_TABLE } from "@/configs/schema";
+import {
+  CHAPTER_NOTES_TABLE,
+  STUDY_MATERIAL_TABLE,
+  STUDY_TYPE_CONTENT_TABLE,
+  USER_TABLE,
+} from "@/configs/schema";
 import { eq } from "drizzle-orm";
-import { generateNotesAiModel } from "@/configs/AiModel";
+import {
+  generateNotesAiModel,
+  GenerateStudyTypeContentAiModel,
+} from "@/configs/AiModel";
 
 export const helloWorld = inngest.createFunction(
   { id: "hello-world" },
@@ -63,23 +71,25 @@ export const GenerateNotes = inngest.createFunction(
     const notesResult = await step.run("Generate Note", async () => {
       const Chapters = course?.courseLayout?.chapters;
       // Use Promise.all with map instead of forEach
-      await Promise.all(Chapters.map(async (chapter, index) => {
-        const PROMPT = `Generate exam material detail content for each chapter , Make sure to includes all topic point in the content, make sure to give content in HTML format (Do not Add HTMLK , Head, Body, title tag), The chapters: ${JSON.stringify(
-          chapter
-        )}`;
-        
-        const result = await generateNotesAiModel.sendMessage(PROMPT);
-        const aiResponse = await result.response.text();
+      await Promise.all(
+        Chapters.map(async (chapter, index) => {
+          const PROMPT = `Generate exam material detail content for each chapter , Make sure to includes all topic point in the content, make sure to give content in HTML format (Do not Add HTMLK , Head, Body, title tag), The chapters: ${JSON.stringify(
+            chapter
+          )}`;
 
-        console.log("AI Response for chapter", index, ":", aiResponse);
+          const result = await generateNotesAiModel.sendMessage(PROMPT);
+          const aiResponse = await result.response.text();
 
-        // Insert note for this chapter
-        await db.insert(CHAPTER_NOTES_TABLE).values({
-          chapterId: index,
-          courseId: course?.courseId,
-          note: aiResponse,
-        });
-      }));
+          console.log("AI Response for chapter", index, ":", aiResponse);
+
+          // Insert note for this chapter
+          await db.insert(CHAPTER_NOTES_TABLE).values({
+            chapterId: index,
+            courseId: course?.courseId,
+            note: aiResponse,
+          });
+        })
+      );
 
       return "Success";
     });
@@ -94,12 +104,42 @@ export const GenerateNotes = inngest.createFunction(
             status: "completed",
           })
           .where(eq(STUDY_MATERIAL_TABLE.courseId, course?.courseId));
-        
+
         console.log("Course status update result:", result);
         return "Success";
       }
     );
 
     return { notesResult, updateCourseStatus };
+  }
+);
+
+// Generate Study Type Content, Question and Answer
+export const GenerateStudyTypeContent = inngest.createFunction(
+  { id: "generate-study-type-content" },
+  { event: "generate-study-type-content" },
+  async ({ event, step }) => {
+    const { studyType, prompt, courseId, recordId } = event.data;
+    const FlashcardAiResult = await step.run("Generate Flashcard", async () => {
+      const result = await GenerateStudyTypeContentAiModel.sendMessage(prompt);
+      const aiResponse = await JSON.parse(result.response.text());
+      return aiResponse;
+    });
+
+    // insert flashcard to database
+
+    const DbResult = await step.run("Insert Flashcard", async () => {
+      const result = await db
+        .update(STUDY_TYPE_CONTENT_TABLE)
+        .set({
+          content: FlashcardAiResult,
+          status: "ready",
+        })
+        .where(eq(STUDY_TYPE_CONTENT_TABLE.id, recordId));
+
+      return "Success";
+    });
+
+    // return { FlashcardAiResult };
   }
 );
