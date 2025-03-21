@@ -15,9 +15,10 @@ export async function POST(req) {
       );
     }
 
-    const PROMPT = `Generate the flashcard on topic: ${Chapter} in JSON format with front back content, Maximum 15.
-
-${Chapter}`;
+    const PROMPT =
+      type == "Flashcard"
+        ? `Generate the flashcard on topic: ${Chapter} in JSON format with front back content, Maximum 15.`
+        : `Generate Quiz on topic : ${Chapter} with Question and Options along with correct answer in JSON format, (Max 10).`;
 
     // Insert record into database
     const result = await db
