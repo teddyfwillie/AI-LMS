@@ -2,15 +2,17 @@
 
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CourseCardItem from "./CourseCardItem";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
+import { CourseCountContext } from "@/app/_contex/CourseCountContex";
 
 function CourseList() {
   const { user } = useUser();
   const [courseList, setCourseList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { courseCount, setCourseCount } = useContext(CourseCountContext);
 
   useEffect(() => {
     console.log("User:", user);
@@ -25,6 +27,7 @@ function CourseList() {
     console.log(result.data.result);
     setCourseList(result.data.result);
     setLoading(false);
+    setCourseCount(result.data.result.length);
   };
   return (
     <div className="mt-10">

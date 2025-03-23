@@ -7,71 +7,82 @@ import React, { useEffect, useState } from "react";
 
 function ViewNotes() {
   const { courseId } = useParams();
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState([]); // Initialize as an empty array
   const [stepCount, setStepCount] = useState(0);
-  const route = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     GetNotes();
   }, []);
 
   const GetNotes = async () => {
-    const result = await axios.post("/api/study-type", {
-      courseId: courseId,
-      studyType: "note",
-    });
-    console.log(result?.data);
-    setNotes(result?.data);
+    try {
+      const result = await axios.post("/api/study-type", {
+        courseId,
+        studyType: "note",
+      });
+      console.log(result?.data);
+      setNotes(result?.data || []); // Ensure it's always an array
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    }
   };
+
+  if (!notes) {
+    return <p className="text-center text-gray-500">No notes available.</p>;
+  }
+
   return (
-    notes && (
-      <div>
-        <div className="flex gap-5 items-center">
-          {stepCount != 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setStepCount(stepCount - 1)}
-            >
-              Previous
-            </Button>
-          )}
+    <div>
+      {/* Progress Bar */}
+      <div className="flex gap-5 items-center">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setStepCount((prev) => prev - 1)}
+          disabled={stepCount === 0} // Disable if at first step
+        >
+          Previous
+        </Button>
 
-          {notes.map((note, index) => (
-            <div
-              key={index}
-              className={`w-full h-2 rounded-full ${
-                index < stepCount ? "bg-blue-500" : "bg-gray-300"
-              }`}
-            ></div>
-          ))}
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setStepCount(stepCount + 1)}
-          >
-            Next
-          </Button>
-        </div>
-        <div className="mt-10">
+        {notes.map((_, index) => (
           <div
-            dangerouslySetInnerHTML={{
-              __html: notes[stepCount]?.note
-                ?.replace("```html", "")
-                .replace("```", ""),
-            }}
-          />
+            key={index}
+            className={`w-full h-2 rounded-full ${
+              index <= stepCount ? "bg-blue-500" : "bg-gray-300"
+            }`}
+          ></div>
+        ))}
 
-          {notes?.length == stepCount && (
-            <div className="flex items-center gap-10 flex-col justify-center">
-              <h1>End of Notes</h1>
-              <Button onClick={() => route.back()}>Go to Course Page</Button>
-            </div>
-          )}
-        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setStepCount((prev) => prev + 1)}
+          disabled={stepCount >= notes.length - 1} // Disable if at last step
+        >
+          Next
+        </Button>
       </div>
-    )
+
+      {/* Notes Display */}
+      <div className="mt-10">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: notes[stepCount]?.note
+              ?.replace("```html", "")
+              .replace("```", ""),
+          }}
+        />
+      </div>
+
+      {/* End of Notes Message */}
+      {stepCount >= notes.length - 1 && (
+        <div className="flex items-center gap-5 flex-col justify-center mt-5">
+          <h1 className="text-lg font-bold">End of Notes</h1>
+          <Button onClick={() => router.back()}>Go to Course Page</Button>
+        </div>
+      )}
+    </div>
   );
 }
 

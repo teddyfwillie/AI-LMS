@@ -6,10 +6,12 @@ import { LayoutDashboard, Shield, UserCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
+import { CourseCountContext } from "@/app/_contex/CourseCountContex";
 
 function SideBar() {
   const path = usePathname();
+  const { courseCount } = useContext(CourseCountContext);
 
   const MenuList = [
     {
@@ -46,7 +48,7 @@ function SideBar() {
       {/* Create New Button */}
       <div className="mt-10">
         <Link href={"/create"} className="w-full">
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 animate-fade-in">
+          <Button className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 animate-fade-in cursor-pointer">
             + Create New
           </Button>
         </Link>
@@ -76,9 +78,13 @@ function SideBar() {
 
       {/* Credits Section */}
       <div className="border p-3 rounded-lg bg-slate-100 animate-fade-in-up">
-        <h2 className="text-lg mb-2 text-gray-800">Available Credits: 5</h2>
-        <Progress value={30} className="h-2 bg-gray-300" />
-        <h2 className="text-sm text-gray-600 mt-1">1 out of 5 Credits Used</h2>
+        <h2 className="text-lg mb-2 text-gray-800">
+          Available Credits: {5 - courseCount}
+        </h2>
+        <Progress value={(courseCount / 5) * 100} className="h-2 bg-gray-300" />
+        <h2 className="text-sm text-gray-600 mt-1">
+          {courseCount} out of 5 Credits Used
+        </h2>
         <Link
           href="/dashboard/upgrade"
           className="text-blue-500 text-sm hover:text-blue-600 transition-colors duration-300"
