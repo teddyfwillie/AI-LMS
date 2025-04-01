@@ -6,39 +6,78 @@ import Link from "next/link";
 import React from "react";
 
 function CourseCardItem({ course }) {
+  // Format creation date
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  };
+
+  // Calculate progress percentage
+  const calculateProgress = () => {
+    if (!course?.progress) return 0;
+    return Math.round(
+      (course.progress.completedLessons / course.progress.totalLessons) * 100
+    );
+  };
+
   return (
-    <div className=" border rounded-lg p-3 cursor-pointer hover:shadow-md transition-shadow duration-300 ease-in-out">
-      <div>
-        <div className="flex items-center justify-between ">
-          <Image
-            src={"/knowledge.png"}
-            alt="knowledge"
-            width={50}
-            height={50}
-          />
-          <h2 className="text-[10px] p-1 rounded-full px-2 bg-blue-600 text-white ">
-            20 Dec 2024
+    <div className="group border rounded-lg p-3 cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out">
+      <div className="flex flex-col h-full">
+        {/* Header Section */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="relative w-12 h-12">
+            <Image
+              src={course?.image || "/knowledge.png"}
+              alt={course?.courseLayout?.course_title || "Course image"}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 50px, 75px"
+            />
+          </div>
+          <span className="text-xs px-2 py-1 bg-primary text-primary-foreground rounded-full">
+            {course?.createdAt ? formatDate(course.createdAt) : "Draft"}
+          </span>
+        </div>
+
+        {/* Content Section */}
+        <div className="flex-1">
+          <h2 className="font-medium text-lg line-clamp-2 mb-2">
+            {course?.courseLayout?.course_title || "Untitled Course"}
           </h2>
+          <p className="text-sm text-muted-foreground line-clamp-3">
+            {course?.courseLayout?.course_summary || "No description available"}
+          </p>
         </div>
-        <h2 className="mt-3 font-medium text-lg">{course?.courseLayout?.course_title}</h2>
-        <p className="text-xs line-clamp-2">
-          {course?.courseLayout?.course_summary}
-        </p>
-        <p className="text-xs line-clamp-2 text-gray-500 mt-2">
-          {course?.courseLayout?.course_summary}
-        </p>
-        <div className="mt-3">
-          <Progress value={0} />
-        </div>
-        <div className="mt-3 flex justify-end">
-          {course?.status != "Generating" ? (
-            <h2 className="text-sm p-1 rounded-full px-2 bg-blue-600 text-white flex items-center gap-2 ">
+
+        {/* Progress Section */}
+        {course?.status === "completed" && (
+          <div className="mt-4 space-y-2">
+            <div className="flex justify-between text-xs">
+              <span>Progress</span>
+              <span>{calculateProgress()}%</span>
+            </div>
+            <Progress value={calculateProgress()} />
+          </div>
+        )}
+
+        {/* Footer Section */}
+        <div className="mt-4 flex justify-end">
+          {course?.status === "generating" ? (
+            <div className="flex items-center gap-2 text-sm text-primary">
               <RefreshCw className="animate-spin h-4 w-4" />
               Generating...
-            </h2>
+            </div>
           ) : (
-            <Link href={`/course/${course?.courseId}`}>
-              <Button>View Course</Button>
+            <Link
+              href={`/course/${course?.courseId}`}
+              className="transition-opacity hover:opacity-80"
+            >
+              <Button
+                size="sm"
+                aria-label={`View ${course?.courseLayout?.course_title}`}
+              >
+                {course?.status === "completed" ? "Continue" : "View Course"}
+              </Button>
             </Link>
           )}
         </div>

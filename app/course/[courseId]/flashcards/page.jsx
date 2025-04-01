@@ -48,12 +48,15 @@ function Flashcards() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-2">Flashcards</h2>
-      <p>Flashcards are a great way to remember important points</p>
-      <div className=" mt-10">
+      <p className="mb-4">
+        Flashcards are a great way to remember important points.
+      </p>
+
+      <div className="mt-10">
         <Carousel setApi={setApi}>
           <CarouselContent>
             {flashcards?.content &&
-              flashcards?.content?.map((flashcard, index) => (
+              flashcards.content.map((flashcard, index) => (
                 <CarouselItem
                   key={index}
                   className="flex items-center justify-center"
@@ -68,8 +71,8 @@ function Flashcards() {
                 </CarouselItem>
               ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2" />
+          <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2" />
         </Carousel>
       </div>
     </div>

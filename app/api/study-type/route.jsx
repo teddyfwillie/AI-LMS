@@ -27,7 +27,7 @@ export async function POST(req) {
       note: note,
       flashcard: contentList?.filter((content) => content.type === "Flashcard"),
       quiz: contentList.filter((content) => content.type === "Quiz"),
-      qa: contentList.filter((content) => content.type === "QA"),
+      qa: null,
     };
     return NextResponse.json(result);
   } else if (studyType == "note") {

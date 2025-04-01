@@ -50,13 +50,14 @@ function StudyMaterialSection({ courseId, course }) {
   };
 
   return (
-    <div className="mt-10">
-      <h2 className="text-lg font-bold mb-2">Study Material</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900">Learning Resources</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MaterialList.map((item, index) => (
           <MaterialCardItem
             key={index}
             item={item}
+            className="hover:scale-[1.02] transition-transform"
             studyTypeContent={studyTypeContent}
             course={course}
             refreshData={GetStudyMaterial}

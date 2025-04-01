@@ -22,12 +22,14 @@ function page() {
   };
 
   return (
-    <div className="">
+    <div className="container mx-auto">
       <div className="mx-10 md:mx-36 lg:mx-44 mt-10 animate-fade-in">
         {/* Course Details */}
         <CourseIntroCard course={course} />
+
         {/* Study Material Options */}
         <StudyMaterialSection courseId={courseId} course={course} />
+
         {/* Study Material List */}
         <ChapterList course={course} />
       </div>
