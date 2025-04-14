@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { CourseCountContext } from "@/app/_contex/CourseCountContex";
 import { toast } from "sonner";
+import Link from "next/link";
 
 function CourseList() {
   const { user } = useUser();
@@ -56,9 +57,14 @@ function CourseList() {
 
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold flex items-center justify-between">
+      <h2 className="text-2xl font-bold flex items-center justify-between text-gray-900 dark:text-white">
         Your Study Material
-        <Button variant="outline" onClick={GetCourseList} disabled={loading}>
+        <Button
+          variant="outline"
+          onClick={GetCourseList}
+          disabled={loading}
+          className="flex items-center gap-2 dark:border-gray-600 dark:text-gray-300"
+        >
           <RefreshCw className={loading ? "animate-spin" : ""} />
           Refresh
         </Button>
@@ -67,10 +73,10 @@ function CourseList() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
         {loading ? (
           // Skeleton loader
-          [1, 2, 3, 4].map((item) => (
+          Array.from({ length: 4 }).map((_, index) => (
             <div
-              key={item}
-              className="h-40 w-full animate-pulse bg-slate-200 rounded-lg"
+              key={index}
+              className="h-40 w-full animate-pulse bg-slate-200 dark:bg-gray-700 rounded-lg"
             />
           ))
         ) : courseList?.length > 0 ? (
@@ -83,8 +89,16 @@ function CourseList() {
           ))
         ) : (
           // Empty state
-          <div className="col-span-full text-center text-gray-500 py-8">
-            No study materials found. Create your first one!
+          <div className="col-span-full text-center text-gray-500 dark:text-gray-300 py-8">
+            No study materials found. <br />
+            <Link href="/create">
+              <Button
+                variant="outline"
+                className="mt-2 dark:border-gray-600 dark:text-gray-300"
+              >
+                Create a Course
+              </Button>
+            </Link>
           </div>
         )}
       </div>

@@ -63,14 +63,14 @@ function MaterialCardItem({ item, studyTypeContent, course, refreshData }) {
         {studyTypeContent?.[item?.type]?.length == null ? (
           <Button
             variant="default"
-            className="mt-2 w-full"
+            className="mt-2 w-full cursor-pointer"
             onClick={GenerateContent}
             disabled={loading}
           >
             {loading ? <RefreshCw className="animate-spin" /> : "Generate"}
           </Button>
         ) : (
-          <Button variant="outline" className="mt-2 w-full">
+          <Button variant="outline" className="mt-2 w-full cursor-pointer">
             View
           </Button>
         )}

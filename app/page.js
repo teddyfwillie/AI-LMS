@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { UserButton } from "@clerk/nextjs";
-import Image from "next/image";
-
+import Features from "@/components/features-1";
+import FooterSection from "@/components/footer";
+import HeroSection from "@/components/hero-section";
 export default function Home() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <h2>Hello world!</h2>
-      <UserButton />
-    </div>
-
+    <>
+      <HeroSection />
+      <Features />
+      <FooterSection />
+    </>
   );
 }

@@ -70,11 +70,12 @@ function CourseCardItem({ course }) {
           ) : (
             <Link
               href={`/course/${course?.courseId}`}
-              className="transition-opacity hover:opacity-80"
+              className="transition-opacity hover:opacity-80 "
             >
               <Button
                 size="sm"
                 aria-label={`View ${course?.courseLayout?.course_title}`}
+                className="cursor-pointer"
               >
                 {course?.status === "completed" ? "Continue" : "View Course"}
               </Button>

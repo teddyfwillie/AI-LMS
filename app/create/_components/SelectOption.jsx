@@ -20,8 +20,8 @@ function SelectOption({ selectedStudyType }) {
         {Option.map((option, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center p-4 cursor-pointer hover:bg-gray-100 justify-center border border-gray-200 rounded-xl ${
-              selected === option.name && "bg-gray-100"
+            className={`flex flex-col items-center p-4 cursor-pointer dark:hover:bg-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 justify-center border border-gray-200 rounded-xl ${
+              selected === option.name && "bg-gray-300"
             }`}
             onClick={() => {
               setSelected(option.name);
