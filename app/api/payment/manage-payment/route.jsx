@@ -6,8 +6,8 @@ export async function POST(req) {
 
   // This is the url to which the customer will be redirected when they're done
   // managing their billing with the portal.
-  const returnUrl = process.env.HOST_URL;
-  const customerId = await req.json().customerId;
+  const returnUrl = "https://startup-scribe.vercel.app";
+  const { customerId } = await req.json();
 
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: customerId,

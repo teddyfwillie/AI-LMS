@@ -24,11 +24,6 @@ function SideBar() {
       icon: Shield,
       path: "/dashboard/upgrade",
     },
-    {
-      name: "Profile",
-      icon: UserCircle,
-      path: "/dashboard/profile",
-    },
   ];
 
   return (
@@ -36,15 +31,12 @@ function SideBar() {
       {/* Logo Section */}
       <div className="flex gap-2 items-center animate-fade-in">
         <Image
-          src={"/logo.svg"}
+          src={"/logo.png"}
           alt="logo"
-          width={28}
-          height={28}
+          width={65}
+          height={65}
           className="animate-spin-slow"
         />
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-          AI LMS
-        </h2>
       </div>
 
       {/* Create New Button */}

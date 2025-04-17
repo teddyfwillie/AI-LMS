@@ -27,13 +27,6 @@ function StudyMaterialSection({ courseId, course }) {
       path: "/quiz",
       type: "quiz",
     },
-    {
-      name: "Questions/Answers",
-      desc: "Create Questions to test your knowledge",
-      icon: "/exam.png",
-      path: "/assignment",
-      type: "qa",
-    },
   ];
 
   useEffect(() => {

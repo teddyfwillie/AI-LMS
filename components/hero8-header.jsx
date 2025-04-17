@@ -10,9 +10,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 
 const menuItems = [
   { name: "Features", href: "/features" },
-  { name: "Solution", href: "/solution" },
   { name: "Pricing", href: "/pricing" },
-  { name: "About", href: "/about" },
 ];
 
 export const HeroHeader = () => {
@@ -34,10 +32,10 @@ export const HeroHeader = () => {
                 className="flex items-center space-x-2"
               >
                 <Image
-                  src={"/logo.svg"}
+                  src={"/logo.png"}
                   alt="logo"
-                  width={28}
-                  height={28}
+                  width={65}
+                  height={65}
                   className="animate-spin-slow"
                 />
               </Link>

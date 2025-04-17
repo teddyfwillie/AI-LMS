@@ -64,8 +64,8 @@ function Upgrade() {
           priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY,
         }),
       });
-
-      window.location.href = result.data.url;
+      console.log(result.data);
+      window.open(result.data?.url, "_blank");
     } catch (error) {
       console.error(`Error processing ${action}:`, error);
       toast.error(`Failed to process request. Please try again.`);

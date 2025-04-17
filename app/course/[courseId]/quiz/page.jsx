@@ -47,39 +47,51 @@ function Page() {
   }, [stepCount]);
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold">Quiz</h2>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-8 md:py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Quiz</h2>
 
-      <StepProgress
-        data={quiz}
-        stepCount={stepCount}
-        setStepCount={setStepCount}
-      />
+        <StepProgress
+          data={quiz}
+          stepCount={stepCount}
+          setStepCount={setStepCount}
+        />
 
-      <div className="mt-10">
-        {quiz.length > 0 ? (
-          <QuizCardItem
-            quiz={quiz[stepCount]}
-            userSelectedOption={(v) => checkAnswer(v, quiz[stepCount])}
-          />
-        ) : (
-          <p className="text-center text-gray-500">No questions available.</p>
+        <div className="mt-8 md:mt-10">
+          {quiz.length > 0 ? (
+            <QuizCardItem
+              quiz={quiz[stepCount]}
+              userSelectedOption={(v) => checkAnswer(v, quiz[stepCount])}
+            />
+          ) : (
+            <p className="text-center text-gray-500 dark:text-gray-400">
+              No questions available.
+            </p>
+          )}
+        </div>
+
+        {/* Feedback Message */}
+        {correctAns === false && (
+          <div className="border p-3 border-red-600 dark:border-red-500 bg-red-100 dark:bg-red-900/30 rounded-lg mt-4 md:mt-5 transition-all">
+            <h2 className="font-bold text-lg text-red-600 dark:text-red-400">
+              Incorrect
+            </h2>
+            <p className="text-red-600 dark:text-red-400">
+              Correct Answer: {iscorrectAns}
+            </p>
+          </div>
+        )}
+        {correctAns === true && (
+          <div className="border p-3 border-green-600 dark:border-green-500 bg-green-100 dark:bg-green-900/30 rounded-lg mt-4 md:mt-5 transition-all">
+            <h2 className="font-bold text-lg text-green-600 dark:text-green-400">
+              Correct
+            </h2>
+            <p className="text-green-600 dark:text-green-400">
+              Your Answer Is Correct
+            </p>
+          </div>
         )}
       </div>
-
-      {/* Feedback Message */}
-      {correctAns === false && (
-        <div className="border p-3 border-red-700 bg-red-200 rounded-lg mt-5">
-          <h2 className="font-bold text-lg text-red-600">Incorrect</h2>
-          <p className="text-red-600">Correct Answer: {iscorrectAns}</p>
-        </div>
-      )}
-      {correctAns === true && (
-        <div className="border p-3 border-green-700 bg-green-200 rounded-lg mt-5">
-          <h2 className="font-bold text-lg text-green-600">Correct</h2>
-          <p className="text-green-600">Your Answer Is Correct</p>
-        </div>
-      )}
     </div>
   );
 }
