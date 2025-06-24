@@ -13,7 +13,7 @@ function SelectOption({ selectedStudyType }) {
   ];
   return (
     <div>
-      <h2 className="text-lg text-center mb-2">
+      <h2 className="text-lg text-center mb-2 text-gray-900 dark:text-white">
         For Which you want to create your personal study material?
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mt-5">
@@ -29,7 +29,7 @@ function SelectOption({ selectedStudyType }) {
             }}
           >
             <Image src={option.icon} alt={option.name} width={50} height={50} />
-            <h2 className="text-sm mt-2">{option.name}</h2>
+            <h2 className="text-sm mt-2 text-gray-900 dark:text-white">{option.name}</h2>
           </div>
         ))}
       </div>

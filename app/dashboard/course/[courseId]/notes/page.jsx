@@ -26,7 +26,7 @@ const formatNoteContent = (content) => {
     
     // Enhance paragraphs
     formattedContent = formattedContent
-      .replace(/<p([^>]*)>/g, '<p$1 class="my-4 leading-relaxed text-gray-700">');
+      .replace(/<p([^>]*)>/g, '<p$1 class="my-4 leading-relaxed text-gray-700 dark:text-gray-300">');
     
     // Enhance sections
     formattedContent = formattedContent
@@ -34,11 +34,11 @@ const formatNoteContent = (content) => {
     
     // Enhance key concepts
     formattedContent = formattedContent
-      .replace(/<div class="key-concepts">/g, '<div class="key-concepts bg-blue-50 p-4 rounded-lg my-4">');
+      .replace(/<div class="key-concepts">/g, '<div class="key-concepts bg-blue-50 dark:bg-blue-900 p-4 rounded-lg my-4">');
     
     // Enhance exam questions
     formattedContent = formattedContent
-      .replace(/<div class="exam-questions">/g, '<div class="exam-questions bg-green-50 p-4 rounded-lg my-4">');
+      .replace(/<div class="exam-questions">/g, '<div class="exam-questions bg-green-50 dark:bg-green-900 p-4 rounded-lg my-4">');
     
     return formattedContent;
   }
@@ -66,7 +66,7 @@ const formatNoteContent = (content) => {
   
   // Format paragraphs (lines that aren't already wrapped in HTML tags)
   formattedContent = formattedContent
-    .replace(/^(?!<[h|u|o|p|d]).+$/gm, '<p class="my-4 leading-relaxed text-gray-700">$&</p>');
+    .replace(/^(?!<[h|u|o|p|d]).+$/gm, '<p class="my-4 leading-relaxed text-gray-700 dark:text-gray-300">$&</p>');
   
   // Format bold and italic text
   formattedContent = formattedContent
@@ -75,12 +75,12 @@ const formatNoteContent = (content) => {
   
   // Format code snippets
   formattedContent = formattedContent
-    .replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">$1</code>');
+    .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm font-mono dark:text-gray-200">$1</code>');
   
   return formattedContent;
 };
 
-function ViewNotes() {
+export default function ViewNotes() {
   const { courseId } = useParams();
   const [notes, setNotes] = useState([]); // Initialize as an empty array
   const [stepCount, setStepCount] = useState(0);
@@ -110,13 +110,13 @@ function ViewNotes() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <p className="text-center text-gray-500">Loading notes...</p>
+        <p className="text-center text-gray-500 dark:text-gray-400">Loading notes...</p>
       </div>
     );
   }
 
   if (!notes || notes.length === 0) {
-    return <p className="text-center text-gray-500">No notes available.</p>;
+    return <p className="text-center text-gray-500 dark:text-gray-400">No notes available.</p>;
   }
 
   return (
@@ -134,7 +134,7 @@ function ViewNotes() {
             Previous
           </Button>
           
-          <span className="text-sm font-medium text-gray-600">
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
             {stepCount + 1} of {notes.length}
           </span>
           
@@ -154,7 +154,7 @@ function ViewNotes() {
             <div
               key={index}
               className={`flex-1 h-full rounded-full ${
-                index <= stepCount ? "bg-blue-500" : "bg-gray-300"
+                index <= stepCount ? "bg-blue-500" : "bg-gray-300 dark:bg-gray-600"
               }`}
             ></div>
           ))}
@@ -169,7 +169,7 @@ function ViewNotes() {
               dangerouslySetInnerHTML={{
                 __html: formatNoteContent(notes[stepCount]?.note),
               }}
-              className="p-8 bg-white rounded-lg shadow-md border border-gray-200 prose prose-lg max-w-none
+              className="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 prose prose-lg max-w-none dark:prose-invert
                 prose-headings:text-center prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg 
                 prose-p:text-gray-700 prose-p:my-4 prose-p:leading-relaxed
                 prose-ul:list-disc prose-ol:list-decimal prose-li:ml-6 prose-li:my-2
@@ -182,7 +182,7 @@ function ViewNotes() {
           </div>
         ) : (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-500">No content available for this note.</p>
+            <p className="text-gray-500 dark:text-gray-400">No content available for this note.</p>
           </div>
         )}
       </div>
@@ -190,12 +190,12 @@ function ViewNotes() {
       {/* End of Notes Message */}
       {stepCount >= notes.length - 1 && (
         <div className="flex items-center gap-5 flex-col justify-center mt-5">
-          <h1 className="text-lg font-bold">End of Notes</h1>
-          <Button onClick={() => router.back()}>Go to Course Page</Button>
+          <h1 className="text-lg font-bold text-gray-900 dark:text-white">End of Notes</h1>
+          <Button onClick={() => router.push(`/dashboard/course/${courseId}`)}>Go to Course Page</Button>
         </div>
       )}
     </div>
   );
 }
 
-export default ViewNotes;
+

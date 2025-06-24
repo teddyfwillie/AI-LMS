@@ -11,7 +11,7 @@ import {
 function TopicInput({ setTopic, setDifficultyLevel }) {
   return (
     <div className="w-full flex flex-col mt-10">
-      <h2 className="text-lg text-center mb-2">
+      <h2 className="text-lg text-center mb-2 text-gray-900 dark:text-white">
         What is the topic of your study material?
       </h2>
       <Textarea
@@ -19,7 +19,7 @@ function TopicInput({ setTopic, setDifficultyLevel }) {
         className="mt-2"
         onChange={(event) => setTopic(event.target.value)}
       />
-      <h2 className="text-lg text-center mb-2 w-full">
+      <h2 className="text-lg text-center mb-2 w-full text-gray-900 dark:text-white">
         What is the difficulty level of your study material?
       </h2>
       <Select onValueChange={(value) => setDifficultyLevel(value)}>

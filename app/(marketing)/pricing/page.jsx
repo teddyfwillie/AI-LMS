@@ -49,7 +49,7 @@ function Upgrade() {
                   </h2>
                   <div className="flex items-baseline gap-2 mb-6">
                     <span className="text-5xl font-extrabold text-indigo-600">
-                      $30
+                      $5
                     </span>
                     <span className="text-lg dark:text-gray-300 text-gray-500">
                       /month
@@ -58,10 +58,9 @@ function Upgrade() {
 
                   <ul className="space-y-4">
                     {[
-                      "Unlimited projects",
-                      "Advanced analytics",
-                      "50GB storage",
-                      "Priority support",
+                      "Unlimited courses",
+                      "Unlimited materials",
+                      "Unlimited quizzes",
                     ].map((feature) => (
                       <li key={feature} className="flex items-center gap-3">
                         <CheckIcon className="h-6 w-6 text-indigo-600 flex-shrink-0" />

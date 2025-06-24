@@ -24,8 +24,8 @@ function FlashcardItem({ isFlipped, handleClick, flashcard }) {
 
         {/* Back of card */}
         <div
-          className="p-6 md:p-8 border-2 border-blue-200 shadow-lg flex flex-col items-center justify-center
-            bg-white text-blue-800 rounded-xl cursor-pointer
+          className="p-6 md:p-8 border-2 border-blue-200 dark:border-blue-700 shadow-lg flex flex-col items-center justify-center
+            bg-white dark:bg-gray-800 text-blue-800 dark:text-blue-300 rounded-xl cursor-pointer
             w-full h-[250px] md:h-[350px] transition-all duration-300 hover:shadow-xl
             transform hover:-translate-y-1"
           onClick={handleClick}
@@ -34,7 +34,7 @@ function FlashcardItem({ isFlipped, handleClick, flashcard }) {
             Answer
           </div>
           <div className="text-lg md:text-xl text-center">{flashcard.back}</div>
-          <div className="absolute bottom-3 text-xs text-gray-500 flex items-center">
+          <div className="absolute bottom-3 text-xs text-gray-500 dark:text-gray-400 flex items-center">
             <span className="mr-1">↑</span> Tap to flip
           </div>
         </div>

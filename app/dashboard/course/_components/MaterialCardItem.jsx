@@ -74,9 +74,9 @@ function MaterialCardItem({ item, studyTypeContent, course, refreshData }) {
   const showGenerateButton = !isContentReady;
   
   return (
-    <Link href={`/course/${course?.courseId}${item.path}`}>
+    <Link href={`/dashboard/course/${course?.courseId}${item.path}`}>
       <div
-        className={`rounded-lg p-5 border shadow-md flex items-center flex-col ${
+        className={`rounded-lg p-5 border shadow-md flex items-center flex-col dark:border-gray-700 dark:bg-gray-800 ${
           !isContentReady && "grayscale"
         }`}
       >
@@ -91,8 +91,8 @@ function MaterialCardItem({ item, studyTypeContent, course, refreshData }) {
         </h2>
 
         <Image src={item.icon} alt={item.name} width={70} height={70} />
-        <h2 className="text-lg font-bold mt-2">{item.name}</h2>
-        <p className="text-gray-500 mt-1 text-sm text-center">{item.desc}</p>
+        <h2 className="text-lg font-bold mt-2 text-gray-900 dark:text-white">{item.name}</h2>
+        <p className="text-gray-500 dark:text-gray-300 mt-1 text-sm text-center">{item.desc}</p>
 
         {showGenerateButton ? (
           <Button

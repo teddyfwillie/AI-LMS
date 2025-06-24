@@ -21,7 +21,7 @@ function CourseCardItem({ course }) {
   };
 
   return (
-    <div className="group border rounded-lg p-3 cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out">
+    <div className="group border rounded-lg p-3 cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out dark:border-gray-700 dark:hover:border-gray-600 dark:bg-gray-800">
       <div className="flex flex-col h-full">
         {/* Header Section */}
         <div className="flex items-center justify-between mb-3">
@@ -41,10 +41,10 @@ function CourseCardItem({ course }) {
 
         {/* Content Section */}
         <div className="flex-1">
-          <h2 className="font-medium text-lg line-clamp-2 mb-2">
+          <h2 className="font-medium text-lg line-clamp-2 mb-2 text-gray-900 dark:text-white">
             {course?.courseLayout?.course_title || "Untitled Course"}
           </h2>
-          <p className="text-sm text-muted-foreground line-clamp-3">
+          <p className="text-sm text-muted-foreground line-clamp-3 dark:text-gray-300">
             {course?.courseLayout?.course_summary || "No description available"}
           </p>
         </div>
@@ -52,24 +52,24 @@ function CourseCardItem({ course }) {
         {/* Progress Section */}
         {course?.status === "completed" && (
           <div className="mt-4 space-y-2">
-            <div className="flex justify-between text-xs">
+            <div className="flex justify-between text-xs dark:text-gray-300">
               <span>Progress</span>
               <span>{calculateProgress()}%</span>
             </div>
-            <Progress value={calculateProgress()} />
+            <Progress value={calculateProgress()} className="dark:bg-gray-700" />
           </div>
         )}
 
         {/* Footer Section */}
         <div className="mt-4 flex justify-end">
           {course?.status === "generating" ? (
-            <div className="flex items-center gap-2 text-sm text-primary">
+            <div className="flex items-center gap-2 text-sm text-primary dark:text-blue-400">
               <RefreshCw className="animate-spin h-4 w-4" />
               Generating...
             </div>
           ) : (
             <Link
-              href={`/course/${course?.courseId}`}
+              href={`/dashboard/course/${course?.courseId}`}
               className="transition-opacity hover:opacity-80 "
             >
               <Button

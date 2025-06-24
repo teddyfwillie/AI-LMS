@@ -9,8 +9,8 @@ function QuizCardItem({ quiz, userSelectedOption, selectedOption: externalSelect
   };
 
   return (
-    <div className="p-4 md:p-6 bg-white rounded-xl">
-      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6 md:mb-8">
+    <div className="p-4 md:p-6 bg-white dark:bg-gray-800 rounded-xl">
+      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-white mb-6 md:mb-8">
         {quiz?.questionText}
       </h2>
 
@@ -26,8 +26,8 @@ function QuizCardItem({ quiz, userSelectedOption, selectedOption: externalSelect
                 w-full flex items-center border-2 rounded-lg p-4 md:p-5 text-left
                 transition-all duration-200 hover:shadow-md
                 ${isSelected 
-                  ? "border-blue-500 bg-blue-50 text-blue-800" 
-                  : "border-gray-200 hover:border-gray-300 text-gray-700"}
+                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300" 
+                  : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-700 dark:text-gray-300"}
               `}
               aria-pressed={isSelected}
             >
@@ -49,7 +49,7 @@ function QuizCardItem({ quiz, userSelectedOption, selectedOption: externalSelect
       </div>
       
       {/* Helper text */}
-      <p className="mt-6 text-sm text-gray-500 text-center">
+      <p className="mt-6 text-sm text-gray-500 dark:text-gray-400 text-center">
         Select an answer to continue
       </p>
     </div>

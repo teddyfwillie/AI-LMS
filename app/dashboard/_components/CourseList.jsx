@@ -91,7 +91,7 @@ function CourseList() {
           // Empty state
           <div className="col-span-full text-center text-gray-500 dark:text-gray-300 py-8">
             No study materials found. <br />
-            <Link href="/create">
+            <Link href="/dashboard/create">
               <Button
                 variant="outline"
                 className="mt-2 dark:border-gray-600 dark:text-gray-300"

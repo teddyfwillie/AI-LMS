@@ -49,10 +49,10 @@ function Page() {
   return (
     <div className="flex flex-col items-center p-8 md:px-24 lg:px-32 mt-20 animate-fade-in">
       {/* Heading Section */}
-      <h2 className="text-4xl font-bold text-primary text-center mb-4">
+      <h2 className="text-4xl font-bold text-primary text-center mb-4 dark:text-white">
         Start Building Your Personal Study Material
       </h2>
-      <p className="text-gray-500 text-lg text-center mb-10">
+      <p className="text-gray-500 dark:text-gray-300 text-lg text-center mb-10">
         Fill the details in order to generate study material for you
       </p>
 
@@ -78,7 +78,7 @@ function Page() {
           <Button
             variant="secondary"
             onClick={() => setStep(step - 1)}
-            className="flex-1 hover:bg-gray-100 transition-colors duration-300"
+            className="flex-1 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300"
           >
             Previous
           </Button>
@@ -86,7 +86,7 @@ function Page() {
         {step === 0 ? (
           <Button
             onClick={() => setStep(1)}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 transition-colors duration-300"
+            className="flex-1 bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white"
           >
             Next
           </Button>
