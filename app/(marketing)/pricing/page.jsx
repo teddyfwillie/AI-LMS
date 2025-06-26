@@ -61,6 +61,7 @@ function Upgrade() {
                       "Unlimited courses",
                       "Unlimited materials",
                       "Unlimited quizzes",
+                      "Up to 20 credits",
                     ].map((feature) => (
                       <li key={feature} className="flex items-center gap-3">
                         <CheckIcon className="h-6 w-6 text-indigo-600 flex-shrink-0" />

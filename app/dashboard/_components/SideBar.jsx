@@ -6,13 +6,18 @@ import { LayoutDashboard, Shield, BookOpen, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { CourseCountContext } from "@/app/_contex/CourseCountContex";
+import { useUser } from "@clerk/nextjs";
 
 function SideBar() {
   const path = usePathname();
   const { courseCount } = useContext(CourseCountContext);
   const [isMobile, setIsMobile] = React.useState(false);
+  const [userCredits, setUserCredits] = useState(5);
+  const [maxCredits, setMaxCredits] = useState(5);
+  const [isMember, setIsMember] = useState(false);
+  const { user } = useUser();
 
   // Check if we're on mobile
   React.useEffect(() => {
@@ -25,6 +30,28 @@ function SideBar() {
 
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Fetch user data including credits and membership status
+  useEffect(() => {
+    async function fetchUserData() {
+      if (user?.primaryEmailAddress?.emailAddress) {
+        try {
+          const response = await fetch('/api/user-details?email=' + user.primaryEmailAddress.emailAddress);
+          const userData = await response.json();
+          
+          if (userData.user) {
+            setIsMember(userData.user.isMember || false);
+            setUserCredits(userData.user.credit || 5);
+            setMaxCredits(userData.user.isMember ? 20 : 5);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    }
+    
+    fetchUserData();
+  }, [user]);
 
   const MenuList = [
     {
@@ -107,21 +134,23 @@ function SideBar() {
       {/* Credits Section */}
       <div className="border p-2 sm:p-3 rounded-lg bg-slate-100 dark:bg-gray-800 dark:text-gray-100 animate-fade-in-up mt-4 text-center sm:text-left">
         <h2 className="text-base sm:text-lg mb-1 sm:mb-2 text-gray-800 dark:text-gray-100">
-          Credits: {5 - courseCount}
+          Credits: {userCredits - courseCount}
         </h2>
         <Progress
-          value={(courseCount / 5) * 100}
+          value={(courseCount / maxCredits) * 100}
           className="h-2 bg-gray-300 dark:bg-gray-700"
         />
         <h2 className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
-          {courseCount}/5 Used
+          {courseCount}/{maxCredits} Used
         </h2>
-        <Link
-          href="/dashboard/upgrade"
-          className="text-blue-500 text-xs sm:text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 inline-block mt-1"
-        >
-          {isMobile ? "Upgrade" : "Upgrade to create more"}
-        </Link>
+        {!isMember && (
+          <Link
+            href="/dashboard/upgrade"
+            className="text-blue-500 text-xs sm:text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 inline-block mt-1"
+          >
+            {isMobile ? "Upgrade" : "Upgrade to create more"}
+          </Link>
+        )}
       </div>
     </div>
   );
